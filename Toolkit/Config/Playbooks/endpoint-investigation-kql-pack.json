@@ -1,0 +1,38 @@
+{
+  "Area": "Endpoint Investigation",
+  "Severity": "Medium",
+  "Source": "Shadow Trace Ops Endpoint KQL Pack",
+  "WhyItMatters": "Endpoint telemetry helps determine whether identity activity correlates with device logons, process execution, remote access, scripting, or network activity.",
+  "Triggers": [
+    "suspicious endpoint logon",
+    "remote interactive logon",
+    "suspicious process activity",
+    "device pivot",
+    "Defender for Endpoint context"
+  ],
+  "ReviewSteps": [
+    "Identify devices where the target user logged on.",
+    "Review failed and remote interactive endpoint logons.",
+    "Check whether local admin or elevated logon indicators are present.",
+    "Pivot to process execution on the user's devices.",
+    "Review outbound network activity from devices used by the target user.",
+    "Look for suspicious scripting or living-off-the-land execution."
+  ],
+  "RelatedQueries": [
+    "Endpoint/01-endpoint-user-logons-by-target-user.kql",
+    "Endpoint/02-endpoint-failed-logons-by-target-user.kql",
+    "Endpoint/03-endpoint-remote-interactive-logons.kql",
+    "Endpoint/04-endpoint-admin-or-elevated-logons.kql",
+    "Endpoint/05-endpoint-processes-after-user-logon.kql",
+    "Endpoint/06-endpoint-network-activity-from-user-devices.kql",
+    "Endpoint/07-endpoint-suspicious-script-execution-user-devices.kql"
+  ],
+  "ExpectedResults": "Rows may show endpoint logons, failed logons, remote access, process execution, or network activity associated with the target user or devices used by the target user.",
+  "NoResultsMeaning": "No matching endpoint telemetry was returned, or Defender for Endpoint telemetry/tables are unavailable for the selected window.",
+  "RecommendedActions": [
+    "Validate whether endpoint activity aligns with expected user behavior.",
+    "Pivot to device timeline in Defender XDR when suspicious results appear.",
+    "Review device onboarding and Advanced Hunting table availability if no endpoint telemetry is returned.",
+    "If malicious activity is validated, follow approved containment workflow."
+  ]
+}

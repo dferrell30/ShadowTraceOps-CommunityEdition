@@ -1,0 +1,40 @@
+{
+  "Area": "Identity Investigation",
+  "Severity": "Medium",
+  "Source": "Shadow Trace Ops Identity KQL Pack",
+  "WhyItMatters": "Identity telemetry helps validate whether authentication was expected, risky, from unmanaged devices, from rare locations, or using legacy clients.",
+  "Triggers": [
+    "risky sign-in",
+    "failed sign-ins",
+    "unmanaged device",
+    "legacy client",
+    "rare location",
+    "identity pivot"
+  ],
+  "ReviewSteps": [
+    "Review all sign-ins for the target user in the selected lookback.",
+    "Check failed sign-ins and risk indicators.",
+    "Review device trust and compliance context.",
+    "Identify legacy client/basic auth style patterns where schema supports it.",
+    "Review rare countries or locations compared to user baseline.",
+    "Pivot into IdentityLogonEvents when available for deeper identity-provider context."
+  ],
+  "RelatedQueries": [
+    "Identity/01-entra-signin-summary-target-user.kql",
+    "Identity/02-entra-failed-signins-target-user.kql",
+    "Identity/03-entra-risky-signins-target-user.kql",
+    "Identity/04-entra-unmanaged-or-noncompliant-device-signins.kql",
+    "Identity/05-entra-legacy-client-or-basic-auth-patterns.kql",
+    "Identity/06-entra-rare-country-or-location-review.kql",
+    "Identity/07-identitylogonevents-target-user-pivot.kql"
+  ],
+  "ExpectedResults": "Rows may show sign-in activity, failures, risk, unmanaged/non-compliant device use, legacy client patterns, rare locations, or identity-provider logon events.",
+  "NoResultsMeaning": "No matching identity telemetry was returned, or the relevant Entra/identity Advanced Hunting table is unavailable in the tenant.",
+  "RecommendedActions": [
+    "Validate whether the sign-in activity is expected.",
+    "Review Conditional Access and session controls for unmanaged devices.",
+    "Investigate risky sign-ins and rare locations.",
+    "Block or restrict legacy clients where appropriate.",
+    "Use Entra admin center and Defender XDR to validate findings before remediation."
+  ]
+}

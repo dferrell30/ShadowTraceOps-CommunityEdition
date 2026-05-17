@@ -1,0 +1,42 @@
+{
+  "Area": "Email Attack Hunting",
+  "Severity": "High",
+  "Source": "Defender-KQL-Playbook/docs/V1/Email_Attack_Hunting_Playbook_V1.0.md",
+  "WhyItMatters": "Identifies phishing campaigns, malicious attachments, URL-based attacks, user interaction, and blast radius across Defender for Office 365 telemetry.",
+  "Triggers": [
+    "phishing campaign",
+    "malicious attachment",
+    "URL click activity",
+    "sender volume spike",
+    "internal spoofing",
+    "spray-and-pray"
+  ],
+  "ReviewSteps": [
+    "Determine whether activity is a campaign or a single message.",
+    "Confirm whether the message was delivered.",
+    "Identify whether users clicked URLs or interacted with attachments.",
+    "Expand scope using NetworkMessageId, sender, subject, URL, and recipient.",
+    "Pivot to identity sign-ins and endpoint activity for impacted users.",
+    "Determine blast radius and whether remediation is required."
+  ],
+  "RelatedQueries": [
+    "EmailAttack/01-sender-domain-volume-spikes.kql",
+    "EmailAttack/02-one-sender-targeting-many-users.kql",
+    "EmailAttack/03-reused-subject-campaigns.kql",
+    "EmailUrlActivity/01-delivered-emails-with-url-click-activity.kql",
+    "EmailAttack/05-malicious-attachment-campaigns.kql",
+    "EmailAttack/06-url-based-campaign-detection.kql",
+    "EmailAttack/07-internal-domain-spoofing.kql",
+    "EmailAttack/08-spray-and-pray-detection.kql",
+    "EmailAttack/09-delivered-external-sender-tuning-example.kql"
+  ],
+  "ExpectedResults": "Rows can indicate campaign patterns, delivered malicious messages, clicked URLs, malicious attachments, or spoofing indicators.",
+  "NoResultsMeaning": "No matching email attack telemetry was returned, or the required Defender for Office 365 tables have no telemetry for the selected window.",
+  "RecommendedActions": [
+    "Block malicious sender, domain, URL, or file hash after validation.",
+    "Purge delivered messages where appropriate.",
+    "Investigate clickers and impacted users.",
+    "Review sign-in activity for users who interacted.",
+    "Tune thresholds for organization size and mail volume."
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "Area": "Authentication",
+  "Severity": "Medium",
+  "Triggers": [
+    "failed",
+    "interrupted",
+    "unknown or unmanaged",
+    "conditional access"
+  ],
+  "WhyItMatters": "Authentication outcomes and device trust help determine whether a successful session should be trusted.",
+  "ReviewSteps": [
+    "Review successful, failed, and interrupted sign-ins.",
+    "Compare IP addresses, geolocation, applications, and device trust.",
+    "Review Conditional Access result and authentication requirement.",
+    "Identify repeated failures followed by success.",
+    "Pivot to cloud activity immediately after successful sign-in."
+  ],
+  "RecommendedActions": [
+    "Review sign-in risk policy.",
+    "Review Conditional Access exclusions.",
+    "Review unmanaged device session restrictions."
+  ]
+}

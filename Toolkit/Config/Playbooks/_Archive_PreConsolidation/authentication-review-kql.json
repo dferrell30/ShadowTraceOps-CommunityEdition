@@ -1,0 +1,28 @@
+{
+  "Area": "Authentication Review",
+  "Severity": "Medium",
+  "WhyItMatters": "Authentication evidence helps validate whether successful access was expected, risky, or followed repeated failures.",
+  "Triggers": [
+    "failed sign-ins",
+    "MFA interruption",
+    "unmanaged device",
+    "Conditional Access review"
+  ],
+  "ReviewSteps": [
+    "Review failed, interrupted, and successful sign-ins for the target user.",
+    "Compare IP address, location, application, device trust, and Conditional Access result.",
+    "Look for repeated failures followed by success.",
+    "Pivot to cloud activity immediately after suspicious successful authentication."
+  ],
+  "RelatedQueries": [
+    "Authentication/signin-failures.kql",
+    "Authentication/unmanaged-device-signins.kql"
+  ],
+  "ExpectedResults": "Rows indicate authentication activity that should be validated by an analyst.",
+  "NoResultsMeaning": "No matching authentication telemetry was returned for the selected window.",
+  "RecommendedActions": [
+    "Validate whether the activity is expected for the user.",
+    "Review Conditional Access coverage and session controls.",
+    "Review MFA method strength if risk indicators exist."
+  ]
+}

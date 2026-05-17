@@ -1,0 +1,39 @@
+{
+  "Area": "Email Attack / Campaign Hunting",
+  "Severity": "High",
+  "Category": "EmailAttack",
+  "WhyItMatters": "Looks for campaign-scale patterns such as sender volume spikes, many-recipient targeting, malicious attachment campaigns, spoofing, and spray-and-pray delivery.",
+  "Triggers": [
+    "phishing campaign",
+    "sender volume spike",
+    "reused subject",
+    "malicious attachment",
+    "spoofing",
+    "spray-and-pray"
+  ],
+  "ReviewSteps": [
+    "Determine whether suspicious email activity is isolated or campaign-scale.",
+    "Review sender, domain, subject, recipient count, URLs, and attachments.",
+    "Identify delivered messages and affected recipients.",
+    "Pivot campaign indicators into Email & URL Activity Review.",
+    "Determine blast radius and remediation need."
+  ],
+  "RelatedQueries": [
+    "EmailAttack/01-sender-domain-volume-spikes.kql",
+    "EmailAttack/02-one-sender-targeting-many-users.kql",
+    "EmailAttack/03-reused-subject-campaigns.kql",
+    "EmailAttack/05-malicious-attachment-campaigns.kql",
+    "EmailAttack/06-url-based-campaign-detection.kql",
+    "EmailAttack/07-internal-domain-spoofing.kql",
+    "EmailAttack/08-spray-and-pray-detection.kql",
+    "EmailAttack/09-delivered-external-sender-tuning-example.kql"
+  ],
+  "ExpectedResults": "Rows show campaign-style email patterns, repeated infrastructure, or broad targeting.",
+  "NoResultsMeaning": "No campaign-style email telemetry was returned for the selected window.",
+  "RecommendedActions": [
+    "Tune thresholds for tenant size.",
+    "Purge delivered malicious messages when validated.",
+    "Block sender/domain/URL/hash as appropriate.",
+    "Investigate users who clicked or executed payloads."
+  ]
+}

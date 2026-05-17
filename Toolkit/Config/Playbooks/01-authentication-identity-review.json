@@ -1,0 +1,40 @@
+{
+  "Area": "Authentication & Identity Review",
+  "Severity": "High",
+  "Category": "AuthenticationIdentity",
+  "WhyItMatters": "Combines sign-in behavior, identity risk, device trust, rare locations, and authentication failures into one identity-focused review path.",
+  "Triggers": [
+    "risky sign-in",
+    "failed sign-ins",
+    "MFA interruption",
+    "unmanaged device",
+    "legacy client",
+    "rare location"
+  ],
+  "ReviewSteps": [
+    "Review all sign-in activity for the target user.",
+    "Validate failed or interrupted authentication patterns.",
+    "Check identity risk, device trust, and Conditional Access outcomes.",
+    "Review rare country/location activity compared to the user baseline.",
+    "Pivot to cloud activity and endpoint activity immediately after suspicious successful sign-ins."
+  ],
+  "RelatedQueries": [
+    "AuthenticationIdentity/01-entra-signin-summary-target-user.kql",
+    "AuthenticationIdentity/02-entra-failed-signins-target-user.kql",
+    "AuthenticationIdentity/03-entra-risky-signins-target-user.kql",
+    "AuthenticationIdentity/04-entra-unmanaged-or-noncompliant-device-signins.kql",
+    "AuthenticationIdentity/05-entra-legacy-client-or-basic-auth-patterns.kql",
+    "AuthenticationIdentity/06-entra-rare-country-or-location-review.kql",
+    "AuthenticationIdentity/07-identitylogonevents-target-user-pivot.kql",
+    "AuthenticationIdentity/signin-failures.kql",
+    "AuthenticationIdentity/unmanaged-device-signins.kql"
+  ],
+  "ExpectedResults": "Rows may show failed sign-ins, risky sign-ins, unmanaged device use, rare locations, or identity-provider activity requiring validation.",
+  "NoResultsMeaning": "No identity/authentication telemetry was returned or the relevant table is unavailable for the selected window.",
+  "RecommendedActions": [
+    "Validate whether activity is expected.",
+    "Review Conditional Access and session controls.",
+    "Review MFA method strength and user risk policy response.",
+    "Document identity telemetry gaps if tables are unavailable."
+  ]
+}

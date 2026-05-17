@@ -1,0 +1,23 @@
+{
+  "Area": "Email and URL Activity",
+  "Severity": "Medium",
+  "Triggers": [
+    "phishing",
+    "UrlClickEvents",
+    "Safe Links",
+    "EmailEvents"
+  ],
+  "WhyItMatters": "Email and URL events can identify the likely initial access path before successful authentication.",
+  "ReviewSteps": [
+    "Review Defender for Office 365 EmailEvents for the user.",
+    "Review UrlClickEvents before and after suspicious sign-ins.",
+    "Compare message delivery, click time, and authentication time.",
+    "Review Safe Links action and threat verdict.",
+    "Review related campaigns, sender, URL, and attachment context."
+  ],
+  "RecommendedActions": [
+    "Review Safe Links and Safe Attachments.",
+    "Review user submissions process.",
+    "Review phishing campaign detection coverage."
+  ]
+}

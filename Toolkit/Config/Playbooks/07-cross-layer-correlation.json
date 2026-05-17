@@ -1,0 +1,37 @@
+{
+  "Area": "Cross-Layer Correlation",
+  "Severity": "Advisory",
+  "Category": "CrossLayer",
+  "WhyItMatters": "Connects evidence across email, identity, endpoint, network, and alert telemetry using shared entities such as user, device, IP, URL, and message ID.",
+  "Triggers": [
+    "cross-layer correlation",
+    "entity pivot",
+    "email to identity",
+    "identity to endpoint",
+    "hunting to detection"
+  ],
+  "ReviewSteps": [
+    "Start with the strongest entity: user, device, IP, URL/domain, or message ID.",
+    "Pivot across email, identity, endpoint, cloud, and alert evidence.",
+    "Validate whether expected telemetry exists.",
+    "Document missing signals as visibility gaps.",
+    "Promote repeatable low-noise logic into candidate detections."
+  ],
+  "RelatedQueries": [
+    "CrossLayer/01-suspicious-email-activity.kql",
+    "CrossLayer/02-url-click-activity.kql",
+    "CrossLayer/03-identity-sign-in-activity.kql",
+    "CrossLayer/04-endpoint-process-activity.kql",
+    "CrossLayer/05-endpoint-network-activity.kql",
+    "CrossLayer/06-alerts-and-evidence.kql",
+    "CrossLayer/07-email-to-identity-correlation.kql",
+    "CrossLayer/08-identity-to-endpoint-correlation.kql"
+  ],
+  "ExpectedResults": "Rows provide pivot points and cross-layer correlations for deeper investigation.",
+  "NoResultsMeaning": "No correlation telemetry was returned, or one or more required telemetry layers are unavailable.",
+  "RecommendedActions": [
+    "Use returned entities to pivot into the next telemetry layer.",
+    "Validate source health and telemetry coverage.",
+    "Document gaps and candidate detection opportunities."
+  ]
+}

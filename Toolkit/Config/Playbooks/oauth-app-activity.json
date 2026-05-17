@@ -1,0 +1,24 @@
+{
+  "Area": "OAuth and Application Activity",
+  "Triggers": [
+    "offline_access",
+    "Files.ReadWrite",
+    "Mail.ReadWrite",
+    "delegated grant",
+    "consent"
+  ],
+  "WhyItMatters": "OAuth grants can allow continued cloud access even after the original authentication event.",
+  "ReviewSteps": [
+    "Open Entra admin center > Enterprise applications.",
+    "Search for the client app or service principal from the report.",
+    "Review publisher verification, consent type, delegated permissions, and sign-in activity.",
+    "Validate business justification with the application owner and user.",
+    "If unauthorized, use approved governance process to remove grants or restrict consent."
+  ],
+  "RecommendedControls": [
+    "Admin consent workflow",
+    "App consent policies",
+    "App governance",
+    "OAuth app review cadence"
+  ]
+}

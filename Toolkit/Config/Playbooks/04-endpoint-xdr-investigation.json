@@ -1,0 +1,38 @@
+{
+  "Area": "Endpoint / XDR Investigation",
+  "Severity": "High",
+  "Category": "Endpoint",
+  "WhyItMatters": "Correlates identity activity with endpoint logons, process execution, network activity, remote access, and suspicious scripting.",
+  "Triggers": [
+    "endpoint logon",
+    "remote interactive logon",
+    "suspicious process",
+    "device pivot",
+    "Defender XDR alert"
+  ],
+  "ReviewSteps": [
+    "Identify devices where the target user logged on.",
+    "Review failed and remote interactive endpoint logons.",
+    "Check for suspicious process execution after logon.",
+    "Review outbound network activity from user devices.",
+    "Pivot to Defender XDR device timeline when suspicious evidence appears."
+  ],
+  "RelatedQueries": [
+    "Endpoint/01-endpoint-user-logons-by-target-user.kql",
+    "Endpoint/02-endpoint-failed-logons-by-target-user.kql",
+    "Endpoint/03-endpoint-remote-interactive-logons.kql",
+    "Endpoint/04-endpoint-admin-or-elevated-logons.kql",
+    "Endpoint/05-endpoint-processes-after-user-logon.kql",
+    "Endpoint/06-endpoint-network-activity-from-user-devices.kql",
+    "Endpoint/07-endpoint-suspicious-script-execution-user-devices.kql",
+    "Endpoint/user-device-logons.kql"
+  ],
+  "ExpectedResults": "Rows may show endpoint logons, failed logons, remote access, process execution, network activity, or scripting on user devices.",
+  "NoResultsMeaning": "No endpoint telemetry was returned or Defender for Endpoint Advanced Hunting tables are unavailable.",
+  "RecommendedActions": [
+    "Validate whether endpoint activity is expected.",
+    "Review Defender for Endpoint onboarding and table availability.",
+    "Use Defender XDR device timeline for suspicious devices.",
+    "Follow approved containment workflow if malicious activity is validated."
+  ]
+}

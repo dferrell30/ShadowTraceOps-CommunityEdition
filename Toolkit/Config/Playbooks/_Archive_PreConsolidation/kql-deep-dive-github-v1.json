@@ -1,0 +1,36 @@
+{
+  "Area": "Cross-Layer KQL Deep Dive",
+  "Severity": "Advisory",
+  "Source": "Defender-KQL-Playbook/docs/V1/KQL_Playbook_DeepDive_V1.0.md",
+  "WhyItMatters": "Guides analysts through Hunt -> Pivot -> Investigate -> Validate -> Decide using shared entities across email, identity, endpoint, network, and alert evidence.",
+  "Triggers": [
+    "cross-layer correlation",
+    "entity pivoting",
+    "validation layer",
+    "hunting to detection"
+  ],
+  "ReviewSteps": [
+    "Start with the strongest entity: user, device, IP address, URL/domain, or message ID.",
+    "Pivot across email, identity, endpoint, and alert evidence.",
+    "Validate whether expected telemetry exists.",
+    "Identify missing signals or visibility gaps.",
+    "Turn repeatable low-noise hunting logic into detection opportunities."
+  ],
+  "RelatedQueries": [
+    "DeepDive/01-suspicious-email-activity.kql",
+    "DeepDive/02-url-click-activity.kql",
+    "DeepDive/03-identity-sign-in-activity.kql",
+    "DeepDive/04-endpoint-process-activity.kql",
+    "DeepDive/05-endpoint-network-activity.kql",
+    "DeepDive/06-alerts-and-evidence.kql",
+    "DeepDive/07-email-to-identity-correlation.kql",
+    "DeepDive/08-identity-to-endpoint-correlation.kql"
+  ],
+  "ExpectedResults": "Rows provide starting points for entity pivots and cross-layer investigation.",
+  "NoResultsMeaning": "No results may indicate the behavior is absent, outside retention, or that the workload/table is not producing telemetry.",
+  "RecommendedActions": [
+    "Use returned entities to pivot into the next telemetry layer.",
+    "Document missing telemetry as a visibility gap.",
+    "Promote repeatable low-noise queries into candidate custom detections."
+  ]
+}

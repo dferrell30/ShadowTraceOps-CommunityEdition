@@ -1,0 +1,33 @@
+{
+  "Area": "Email & URL Activity Review",
+  "Severity": "Medium",
+  "Category": "EmailUrlActivity",
+  "WhyItMatters": "Tracks user interaction with email-delivered URLs and helps correlate phishing delivery with click behavior.",
+  "Triggers": [
+    "URL click",
+    "Safe Links",
+    "EmailEvents",
+    "UrlClickEvents",
+    "message interaction"
+  ],
+  "ReviewSteps": [
+    "Review delivered emails associated with URL click activity.",
+    "Validate clicked URLs, click outcome, and user interaction time.",
+    "Compare click time to suspicious sign-in or cloud activity.",
+    "Pivot on NetworkMessageId, URL, sender, and AccountUpn.",
+    "Escalate to campaign hunting if multiple recipients or repeated infrastructure are found."
+  ],
+  "RelatedQueries": [
+    "EmailUrlActivity/01-delivered-emails-with-url-click-activity.kql",
+    "EmailUrlActivity/02-url-click-review-target-user.kql",
+    "EmailUrlActivity/url-click-review.kql"
+  ],
+  "ExpectedResults": "Rows show delivered emails correlated with URL click activity or target-user URL interaction.",
+  "NoResultsMeaning": "No email URL interaction telemetry was returned or Defender for Office 365 click telemetry is unavailable.",
+  "RecommendedActions": [
+    "Validate user interaction and URL verdict.",
+    "Review Safe Links action and threat intelligence.",
+    "Pivot to identity and endpoint activity for clickers.",
+    "Consider email purge or URL block after validation."
+  ]
+}

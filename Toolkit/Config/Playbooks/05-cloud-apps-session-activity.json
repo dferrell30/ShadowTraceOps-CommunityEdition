@@ -1,0 +1,32 @@
+{
+  "Area": "Cloud Apps & Session Activity",
+  "Severity": "Medium",
+  "Category": "CloudApps",
+  "WhyItMatters": "Reviews post-authentication SaaS activity, file movement, sharing, unmanaged device access, and session behavior.",
+  "Triggers": [
+    "CloudAppEvents",
+    "download",
+    "upload",
+    "share",
+    "unmanaged device",
+    "session behavior"
+  ],
+  "ReviewSteps": [
+    "Review cloud app activity after suspicious successful authentication.",
+    "Look for downloads, uploads, sharing, anonymous links, or unusual apps.",
+    "Compare cloud activity to device trust and Conditional Access outcome.",
+    "Validate DLP visibility for sensitive data movement.",
+    "Review Defender for Cloud Apps session policy coverage."
+  ],
+  "RelatedQueries": [
+    "CloudApps/01-cloud-data-movement-target-user.kql",
+    "CloudApps/cloud-downloads-and-sharing.kql"
+  ],
+  "ExpectedResults": "Rows may show SaaS activity, file access, sharing, downloads, uploads, or session events.",
+  "NoResultsMeaning": "No cloud app telemetry was returned or CloudAppEvents is unavailable.",
+  "RecommendedActions": [
+    "Validate user intent and business context.",
+    "Review Conditional Access App Control coverage.",
+    "Review DLP policy visibility and Defender for Cloud Apps policies."
+  ]
+}

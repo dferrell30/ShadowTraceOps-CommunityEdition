@@ -1,0 +1,25 @@
+{
+  "Area": "Endpoint / XDR",
+  "Severity": "High",
+  "Triggers": [
+    "alert",
+    "incident",
+    "DeviceLogonEvents",
+    "credential",
+    "token",
+    "malware"
+  ],
+  "WhyItMatters": "Endpoint and XDR evidence can connect identity activity to device behavior, malware, or token theft indicators.",
+  "ReviewSteps": [
+    "Review Defender XDR incidents and alerts around the same timeframe.",
+    "Pivot on user, device, IP address, file, URL, and process evidence.",
+    "Review Defender for Endpoint device timeline and logged-on users.",
+    "Look for suspicious browser, credential, token, scripting, or malware activity.",
+    "If confirmed malicious, follow approved containment workflow."
+  ],
+  "RecommendedActions": [
+    "Review EDR onboarding and health.",
+    "Review Attack Surface Reduction coverage.",
+    "Review incident response workflows."
+  ]
+}

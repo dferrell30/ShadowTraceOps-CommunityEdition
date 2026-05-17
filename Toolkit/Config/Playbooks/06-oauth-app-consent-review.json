@@ -1,0 +1,32 @@
+{
+  "Area": "OAuth / App Consent Review",
+  "Severity": "Medium",
+  "Category": "OAuth",
+  "WhyItMatters": "Identifies application consent, delegated permission, and high-interest OAuth scope activity that may indicate risky app access.",
+  "Triggers": [
+    "OAuth grant",
+    "consent",
+    "delegated permission",
+    "offline_access",
+    "Files.ReadWrite",
+    "Mail.ReadWrite"
+  ],
+  "ReviewSteps": [
+    "Review OAuth grants and consent activity.",
+    "Validate app publisher, app owner, consent source, and permissions.",
+    "Identify high-interest scopes such as offline_access, Mail.ReadWrite, Files.ReadWrite, and Directory.Read.All.",
+    "Confirm whether the app is business-approved.",
+    "Pivot to cloud activity performed by the app or user."
+  ],
+  "RelatedQueries": [
+    "OAuth/01-high-interest-oauth-grants.kql",
+    "OAuth/high-interest-oauth-grants.kql"
+  ],
+  "ExpectedResults": "Rows may show consent activity, service principal changes, delegated permission grants, or app access events.",
+  "NoResultsMeaning": "No OAuth or app consent telemetry was returned for the selected window.",
+  "RecommendedActions": [
+    "Validate business justification for app permissions.",
+    "Remove or restrict risky grants after validation.",
+    "Review app consent governance and admin consent workflow."
+  ]
+}

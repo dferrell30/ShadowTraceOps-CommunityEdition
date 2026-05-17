@@ -1,0 +1,25 @@
+{
+  "Area": "Cloud Activity",
+  "Severity": "Medium",
+  "Triggers": [
+    "CloudAppEvents",
+    "download",
+    "upload",
+    "share",
+    "unmanaged",
+    "session"
+  ],
+  "WhyItMatters": "Post-authentication cloud activity can show session abuse, data access, or control gaps.",
+  "ReviewSteps": [
+    "Review CloudAppEvents around successful sign-ins.",
+    "Check downloads, uploads, sharing, OAuth activity, and unusual apps.",
+    "Compare device trust and session control coverage.",
+    "Review DLP visibility for sensitive data movement.",
+    "Validate whether behavior is expected for the user role."
+  ],
+  "RecommendedActions": [
+    "Review Conditional Access App Control.",
+    "Review Defender for Cloud Apps session policies.",
+    "Review DLP coverage for SharePoint, OneDrive, and cloud apps."
+  ]
+}

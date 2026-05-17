@@ -1,0 +1,23 @@
+{
+  "Area": "Identity Risk",
+  "Severity": "High",
+  "Triggers": [
+    "risky sign-in",
+    "identity risk",
+    "unfamiliar properties",
+    "impossible travel"
+  ],
+  "WhyItMatters": "Identity risk can indicate that authentication succeeded from a context that should not automatically be trusted.",
+  "ReviewSteps": [
+    "Review risky users and risky sign-ins in Microsoft Entra.",
+    "Compare sign-in timestamps, locations, device trust, and Conditional Access outcome.",
+    "Validate MFA method strength and sign-in risk/user risk policy response.",
+    "Review whether the activity aligns with expected user behavior.",
+    "If unauthorized activity is confirmed, follow approved response workflow."
+  ],
+  "RecommendedActions": [
+    "Review Conditional Access coverage.",
+    "Review phishing-resistant MFA posture.",
+    "Validate session controls for risky sessions."
+  ]
+}
