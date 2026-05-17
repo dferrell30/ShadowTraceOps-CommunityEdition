@@ -1,0 +1,26 @@
+// Shadow Trace Ops - Suspicious script execution on target user's devices
+// Purpose: Look for scripting activity after identifying devices used by a target user.
+let TargetUser = "{TargetUser}";
+let Lookback = 30d;
+let UserDevices =
+    DeviceLogonEvents
+    | where Timestamp > ago(Lookback)
+    | extend AccountUpnSafe = tostring(column_ifexists("AccountUpn", "")),
+             AccountNameSafe = tostring(column_ifexists("AccountName", "")),
+             DeviceIdSafe = tostring(column_ifexists("DeviceId", "")),
+             DeviceNameSafe = tostring(column_ifexists("DeviceName", ""))
+    | where AccountUpnSafe =~ TargetUser or AccountNameSafe =~ split(TargetUser, "@")[0]
+    | summarize by DeviceIdSafe;
+DeviceProcessEvents
+| where Timestamp > ago(Lookback)
+| extend DeviceIdSafe = tostring(column_ifexists("DeviceId", "")),
+         DeviceNameSafe = tostring(column_ifexists("DeviceName", "")),
+         AccountNameSafe = tostring(column_ifexists("AccountName", "")),
+         FileNameSafe = tostring(column_ifexists("FileName", "")),
+         ProcessCommandLineSafe = tostring(column_ifexists("ProcessCommandLine", "")),
+         InitiatingProcessFileNameSafe = tostring(column_ifexists("InitiatingProcessFileName", ""))
+| join kind=inner UserDevices on DeviceIdSafe
+| where FileNameSafe in~ ("powershell.exe","pwsh.exe","cmd.exe","wscript.exe","cscript.exe","mshta.exe","rundll32.exe","regsvr32.exe")
+   or ProcessCommandLineSafe has_any ("-enc", "EncodedCommand", "downloadstring", "iex", "invoke-webrequest", "bitsadmin", "certutil")
+| project Timestamp, DeviceName=DeviceNameSafe, AccountName=AccountNameSafe, FileName=FileNameSafe, ProcessCommandLine=ProcessCommandLineSafe, InitiatingProcessFileName=InitiatingProcessFileNameSafe
+| order by Timestamp desc

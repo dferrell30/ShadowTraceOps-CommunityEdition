@@ -1,0 +1,22 @@
+// Shadow Trace Ops - Unmanaged or non-compliant device sign-ins
+
+let TargetUser = "{TargetUser}";
+EntraIdSignInEvents
+| where Timestamp > ago(30d)
+| extend AccountUpnSafe = tostring(column_ifexists("AccountUpn", ""))
+| extend UserPrincipalNameSafe = tostring(column_ifexists("UserPrincipalName", ""))
+| extend Account = iff(isnotempty(AccountUpnSafe), AccountUpnSafe, UserPrincipalNameSafe)
+| extend DeviceTrustTypeSafe = tostring(column_ifexists("DeviceTrustType", ""))
+| extend TrustTypeSafe = tostring(column_ifexists("TrustType", ""))
+| extend DeviceTrustType = iff(isnotempty(DeviceTrustTypeSafe), DeviceTrustTypeSafe, TrustTypeSafe)
+| extend IsCompliantSafe = tostring(column_ifexists("IsCompliant", ""))
+| extend DeviceNameSafe = tostring(column_ifexists("DeviceName", ""))
+| extend ApplicationSafe = tostring(column_ifexists("Application", ""))
+| extend AppDisplayNameSafe = tostring(column_ifexists("AppDisplayName", ""))
+| extend ApplicationName = iff(isnotempty(ApplicationSafe), ApplicationSafe, AppDisplayNameSafe)
+| extend IPAddressSafe = tostring(column_ifexists("IPAddress", ""))
+| extend ConditionalAccessStatusSafe = tostring(column_ifexists("ConditionalAccessStatus", ""))
+| where Account =~ TargetUser
+| where isempty(DeviceTrustType) or DeviceTrustType in~ ("none","unknown","unmanaged") or IsCompliantSafe =~ "false"
+| project Timestamp, Account, Application=ApplicationName, IPAddress=IPAddressSafe, DeviceName=DeviceNameSafe, DeviceTrustType, IsCompliant=IsCompliantSafe, ConditionalAccessStatus=ConditionalAccessStatusSafe
+| order by Timestamp desc

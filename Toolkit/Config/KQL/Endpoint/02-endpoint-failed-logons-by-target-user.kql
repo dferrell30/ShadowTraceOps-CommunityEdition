@@ -1,0 +1,16 @@
+// Shadow Trace Ops - Failed endpoint logons by target user
+// Purpose: Identify endpoint authentication failures for brute force, password spray, or access issues.
+let TargetUser = "{TargetUser}";
+DeviceLogonEvents
+| where Timestamp > ago(30d)
+| extend AccountUpnSafe = tostring(column_ifexists("AccountUpn", "")),
+         AccountNameSafe = tostring(column_ifexists("AccountName", "")),
+         DeviceNameSafe = tostring(column_ifexists("DeviceName", "")),
+         ActionTypeSafe = tostring(column_ifexists("ActionType", "")),
+         FailureReasonSafe = tostring(column_ifexists("FailureReason", "")),
+         LogonTypeSafe = tostring(column_ifexists("LogonType", "")),
+         RemoteIPSafe = tostring(column_ifexists("RemoteIP", ""))
+| where AccountUpnSafe =~ TargetUser or AccountNameSafe =~ split(TargetUser, "@")[0]
+| where ActionTypeSafe has_any ("Failed", "LogonFailed") or FailureReasonSafe != ""
+| project Timestamp, DeviceName=DeviceNameSafe, AccountUpn=AccountUpnSafe, AccountName=AccountNameSafe, LogonType=LogonTypeSafe, ActionType=ActionTypeSafe, FailureReason=FailureReasonSafe, RemoteIP=RemoteIPSafe
+| order by Timestamp desc

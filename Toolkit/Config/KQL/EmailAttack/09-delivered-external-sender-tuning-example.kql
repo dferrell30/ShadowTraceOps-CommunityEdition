@@ -1,0 +1,4 @@
+// Tuning Guidance Example
+EmailEvents
+| where SenderFromDomain !endswith "contoso.com"
+| where DeliveryAction =~ "Delivered"

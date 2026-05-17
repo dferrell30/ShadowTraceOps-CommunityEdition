@@ -1,0 +1,26 @@
+// Shadow Trace Ops - Processes after target user logon
+// Purpose: Pivot from endpoint logon to process activity on the same device and account.
+// This is useful after suspicious authentication or possible token/session abuse.
+let TargetUser = "{TargetUser}";
+let Lookback = 30d;
+let UserDevices =
+    DeviceLogonEvents
+    | where Timestamp > ago(Lookback)
+    | extend AccountUpnSafe = tostring(column_ifexists("AccountUpn", "")),
+             AccountNameSafe = tostring(column_ifexists("AccountName", "")),
+             DeviceIdSafe = tostring(column_ifexists("DeviceId", "")),
+             DeviceNameSafe = tostring(column_ifexists("DeviceName", ""))
+    | where AccountUpnSafe =~ TargetUser or AccountNameSafe =~ split(TargetUser, "@")[0]
+    | summarize LastLogon=max(Timestamp) by DeviceIdSafe, DeviceNameSafe, AccountNameSafe, AccountUpnSafe;
+DeviceProcessEvents
+| where Timestamp > ago(Lookback)
+| extend DeviceIdSafe = tostring(column_ifexists("DeviceId", "")),
+         DeviceNameSafe = tostring(column_ifexists("DeviceName", "")),
+         AccountNameSafe = tostring(column_ifexists("AccountName", "")),
+         FileNameSafe = tostring(column_ifexists("FileName", "")),
+         ProcessCommandLineSafe = tostring(column_ifexists("ProcessCommandLine", "")),
+         InitiatingProcessFileNameSafe = tostring(column_ifexists("InitiatingProcessFileName", ""))
+| join kind=inner UserDevices on DeviceIdSafe
+| where AccountNameSafe =~ AccountNameSafe1 or AccountNameSafe =~ split(TargetUser, "@")[0]
+| project Timestamp, DeviceName=DeviceNameSafe, AccountName=AccountNameSafe, FileName=FileNameSafe, ProcessCommandLine=ProcessCommandLineSafe, InitiatingProcessFileName=InitiatingProcessFileNameSafe, LastLogon
+| order by Timestamp desc

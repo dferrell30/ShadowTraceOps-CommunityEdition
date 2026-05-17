@@ -1,0 +1,14 @@
+// Shadow Trace Ops - Delivered Emails with URL Click Activity
+// Category: Email and URL Activity
+// Purpose: Correlate delivered email messages with user URL click activity.
+// This helps identify phishing delivery followed by user interaction.
+
+EmailEvents
+| where Timestamp > ago(7d)
+| project NetworkMessageId, RecipientEmailAddress, Subject, SenderFromAddress, DeliveryAction
+| join kind=inner (
+    UrlClickEvents
+    | project NetworkMessageId, AccountUpn, Url, ActionType, ClickTime=Timestamp
+) on NetworkMessageId
+| project ClickTime, AccountUpn, RecipientEmailAddress, Subject, SenderFromAddress, DeliveryAction, Url, ActionType, NetworkMessageId
+| sort by ClickTime desc

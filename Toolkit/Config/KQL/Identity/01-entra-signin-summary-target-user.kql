@@ -1,0 +1,17 @@
+// Shadow Trace Ops - Entra sign-in summary for target user
+// Purpose: Review sign-in activity in Microsoft Defender XDR Advanced Hunting.
+// Prefer EntraIdSignInEvents where available.
+let TargetUser = "{TargetUser}";
+EntraIdSignInEvents
+| where Timestamp > ago(30d)
+| extend AccountUpnSafe = tostring(column_ifexists("AccountUpn", "")),
+         UserPrincipalNameSafe = tostring(column_ifexists("UserPrincipalName", "")),
+         Account = iff(isnotempty(AccountUpnSafe), AccountUpnSafe, UserPrincipalNameSafe),
+         ApplicationSafe = tostring(column_ifexists("Application", column_ifexists("AppDisplayName", ""))),
+         IPAddressSafe = tostring(column_ifexists("IPAddress", "")),
+         CountrySafe = tostring(column_ifexists("Country", column_ifexists("Location", ""))),
+         ErrorCodeSafe = tostring(column_ifexists("ErrorCode", column_ifexists("ResultType", ""))),
+         ConditionalAccessStatusSafe = tostring(column_ifexists("ConditionalAccessStatus", ""))
+| where Account =~ TargetUser
+| project Timestamp, Account, Application=ApplicationSafe, IPAddress=IPAddressSafe, Country=CountrySafe, ErrorCode=ErrorCodeSafe, ConditionalAccessStatus=ConditionalAccessStatusSafe
+| order by Timestamp desc

@@ -1,0 +1,3 @@
+// Identity Sign-In Activity
+IdentityLogonEvents
+| project Timestamp, AccountUpn, IPAddress, Location, ResultType

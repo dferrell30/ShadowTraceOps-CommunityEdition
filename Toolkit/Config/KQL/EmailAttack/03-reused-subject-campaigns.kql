@@ -1,0 +1,6 @@
+// Reused Subject Campaigns
+EmailEvents
+| where Timestamp > ago(7d)
+| summarize Recipients=dcount(RecipientEmailAddress) by Subject
+| where Recipients >= 10
+| sort by Recipients desc

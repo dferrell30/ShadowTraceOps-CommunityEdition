@@ -1,0 +1,5 @@
+// Internal Domain Spoofing
+let MyDomain = "contoso.com";
+EmailEvents
+| where SenderFromDomain =~ MyDomain
+| where SenderFromAddress !endswith MyDomain

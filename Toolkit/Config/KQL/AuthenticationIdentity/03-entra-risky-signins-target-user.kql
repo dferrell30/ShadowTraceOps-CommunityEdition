@@ -1,0 +1,24 @@
+// Shadow Trace Ops - Risky Entra sign-ins for target user
+
+let TargetUser = "{TargetUser}";
+EntraIdSignInEvents
+| where Timestamp > ago(30d)
+| extend AccountUpnSafe = tostring(column_ifexists("AccountUpn", ""))
+| extend UserPrincipalNameSafe = tostring(column_ifexists("UserPrincipalName", ""))
+| extend Account = iff(isnotempty(AccountUpnSafe), AccountUpnSafe, UserPrincipalNameSafe)
+| extend RiskLevelSafe = tostring(column_ifexists("RiskLevel", ""))
+| extend RiskLevelAggregatedSafe = tostring(column_ifexists("RiskLevelAggregated", ""))
+| extend RiskLevel = iff(isnotempty(RiskLevelSafe), RiskLevelSafe, RiskLevelAggregatedSafe)
+| extend RiskStateSafe = tostring(column_ifexists("RiskState", ""))
+| extend RiskDetailSafe = tostring(column_ifexists("RiskDetail", ""))
+| extend ApplicationSafe = tostring(column_ifexists("Application", ""))
+| extend AppDisplayNameSafe = tostring(column_ifexists("AppDisplayName", ""))
+| extend ApplicationName = iff(isnotempty(ApplicationSafe), ApplicationSafe, AppDisplayNameSafe)
+| extend IPAddressSafe = tostring(column_ifexists("IPAddress", ""))
+| extend CountrySafe = tostring(column_ifexists("Country", ""))
+| extend LocationSafe = tostring(column_ifexists("Location", ""))
+| extend LocationName = iff(isnotempty(CountrySafe), CountrySafe, LocationSafe)
+| where Account =~ TargetUser
+| where RiskLevel !in ("", "none", "hidden", "low") or RiskStateSafe !in ("", "none")
+| project Timestamp, Account, Application=ApplicationName, IPAddress=IPAddressSafe, Country=LocationName, RiskLevel, RiskState=RiskStateSafe, RiskDetail=RiskDetailSafe
+| order by Timestamp desc

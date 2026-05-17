@@ -1,0 +1,25 @@
+// Shadow Trace Ops - Rare country/location review for target user
+// Purpose: Identify countries/locations that are uncommon for the selected user.
+let TargetUser = "{TargetUser}";
+let Lookback = 30d;
+let Baseline =
+    EntraIdSignInEvents
+    | where Timestamp between (ago(90d) .. ago(30d))
+    | extend AccountUpnSafe = tostring(column_ifexists("AccountUpn", "")),
+             UserPrincipalNameSafe = tostring(column_ifexists("UserPrincipalName", "")),
+             Account = iff(isnotempty(AccountUpnSafe), AccountUpnSafe, UserPrincipalNameSafe),
+             CountrySafe = tostring(column_ifexists("Country", column_ifexists("Location", "")))
+    | where Account =~ TargetUser
+    | summarize by CountrySafe;
+EntraIdSignInEvents
+| where Timestamp > ago(Lookback)
+| extend AccountUpnSafe = tostring(column_ifexists("AccountUpn", "")),
+         UserPrincipalNameSafe = tostring(column_ifexists("UserPrincipalName", "")),
+         Account = iff(isnotempty(AccountUpnSafe), AccountUpnSafe, UserPrincipalNameSafe),
+         CountrySafe = tostring(column_ifexists("Country", column_ifexists("Location", ""))),
+         IPAddressSafe = tostring(column_ifexists("IPAddress", "")),
+         ApplicationSafe = tostring(column_ifexists("Application", column_ifexists("AppDisplayName", "")))
+| where Account =~ TargetUser
+| join kind=leftanti Baseline on CountrySafe
+| project Timestamp, Account, Application=ApplicationSafe, IPAddress=IPAddressSafe, Country=CountrySafe
+| order by Timestamp desc

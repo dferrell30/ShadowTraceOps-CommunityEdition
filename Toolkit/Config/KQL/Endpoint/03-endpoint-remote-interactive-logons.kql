@@ -1,0 +1,15 @@
+// Shadow Trace Ops - Remote interactive / RDP-style endpoint logons
+// Purpose: Review remote interactive access for the target user.
+let TargetUser = "{TargetUser}";
+DeviceLogonEvents
+| where Timestamp > ago(30d)
+| extend AccountUpnSafe = tostring(column_ifexists("AccountUpn", "")),
+         AccountNameSafe = tostring(column_ifexists("AccountName", "")),
+         DeviceNameSafe = tostring(column_ifexists("DeviceName", "")),
+         LogonTypeSafe = tostring(column_ifexists("LogonType", "")),
+         RemoteIPSafe = tostring(column_ifexists("RemoteIP", "")),
+         RemoteDeviceNameSafe = tostring(column_ifexists("RemoteDeviceName", ""))
+| where AccountUpnSafe =~ TargetUser or AccountNameSafe =~ split(TargetUser, "@")[0]
+| where LogonTypeSafe has_any ("RemoteInteractive", "Remote", "Network")
+| project Timestamp, DeviceName=DeviceNameSafe, AccountUpn=AccountUpnSafe, AccountName=AccountNameSafe, LogonType=LogonTypeSafe, RemoteIP=RemoteIPSafe, RemoteDeviceName=RemoteDeviceNameSafe
+| order by Timestamp desc

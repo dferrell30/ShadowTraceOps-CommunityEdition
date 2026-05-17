@@ -1,0 +1,16 @@
+// Shadow Trace Ops - Failed Entra sign-ins for target user
+let TargetUser = "{TargetUser}";
+EntraIdSignInEvents
+| where Timestamp > ago(30d)
+| extend AccountUpnSafe = tostring(column_ifexists("AccountUpn", "")),
+         UserPrincipalNameSafe = tostring(column_ifexists("UserPrincipalName", "")),
+         Account = iff(isnotempty(AccountUpnSafe), AccountUpnSafe, UserPrincipalNameSafe),
+         ErrorCodeSafe = tostring(column_ifexists("ErrorCode", column_ifexists("ResultType", ""))),
+         FailureReasonSafe = tostring(column_ifexists("FailureReason", column_ifexists("Status", ""))),
+         ApplicationSafe = tostring(column_ifexists("Application", column_ifexists("AppDisplayName", ""))),
+         IPAddressSafe = tostring(column_ifexists("IPAddress", "")),
+         CountrySafe = tostring(column_ifexists("Country", column_ifexists("Location", "")))
+| where Account =~ TargetUser
+| where ErrorCodeSafe !in ("0", "", "Success") or FailureReasonSafe has_any ("failure", "failed", "interrupt")
+| project Timestamp, Account, Application=ApplicationSafe, IPAddress=IPAddressSafe, Country=CountrySafe, ErrorCode=ErrorCodeSafe, FailureReason=FailureReasonSafe
+| order by Timestamp desc

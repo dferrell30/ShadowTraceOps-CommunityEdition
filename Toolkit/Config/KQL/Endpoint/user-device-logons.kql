@@ -1,0 +1,7 @@
+// Shadow Trace Ops - Endpoint user/device logon context
+let TargetUser = "{TargetUser}";
+DeviceLogonEvents
+| where Timestamp > ago(30d)
+| where AccountUpn =~ TargetUser or AccountName has split(TargetUser, "@")[0]
+| summarize LastSeen=max(Timestamp), LogonCount=count(), Devices=make_set(DeviceName, 20), RemoteIPs=make_set(RemoteIP, 20) by AccountUpn, AccountName
+| order by LastSeen desc

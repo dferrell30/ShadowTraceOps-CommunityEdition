@@ -1,0 +1,24 @@
+// Shadow Trace Ops - Entra sign-in summary for target user
+// Purpose: Review sign-in activity in Microsoft Defender XDR Advanced Hunting.
+// Fix: split derived columns into separate extend statements so KQL does not reference newly-created columns in the same extend.
+
+let TargetUser = "{TargetUser}";
+EntraIdSignInEvents
+| where Timestamp > ago(30d)
+| extend AccountUpnSafe = tostring(column_ifexists("AccountUpn", ""))
+| extend UserPrincipalNameSafe = tostring(column_ifexists("UserPrincipalName", ""))
+| extend Account = iff(isnotempty(AccountUpnSafe), AccountUpnSafe, UserPrincipalNameSafe)
+| extend ApplicationSafe = tostring(column_ifexists("Application", ""))
+| extend AppDisplayNameSafe = tostring(column_ifexists("AppDisplayName", ""))
+| extend ApplicationName = iff(isnotempty(ApplicationSafe), ApplicationSafe, AppDisplayNameSafe)
+| extend IPAddressSafe = tostring(column_ifexists("IPAddress", ""))
+| extend CountrySafe = tostring(column_ifexists("Country", ""))
+| extend LocationSafe = tostring(column_ifexists("Location", ""))
+| extend LocationName = iff(isnotempty(CountrySafe), CountrySafe, LocationSafe)
+| extend ErrorCodeSafe = tostring(column_ifexists("ErrorCode", ""))
+| extend ResultTypeSafe = tostring(column_ifexists("ResultType", ""))
+| extend ResultCode = iff(isnotempty(ErrorCodeSafe), ErrorCodeSafe, ResultTypeSafe)
+| extend ConditionalAccessStatusSafe = tostring(column_ifexists("ConditionalAccessStatus", ""))
+| where Account =~ TargetUser
+| project Timestamp, Account, Application=ApplicationName, IPAddress=IPAddressSafe, Country=LocationName, ErrorCode=ResultCode, ConditionalAccessStatus=ConditionalAccessStatusSafe
+| order by Timestamp desc

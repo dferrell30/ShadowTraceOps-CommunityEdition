@@ -1,0 +1,20 @@
+// Shadow Trace Ops - Legacy client/basic auth style patterns
+
+let TargetUser = "{TargetUser}";
+EntraIdSignInEvents
+| where Timestamp > ago(30d)
+| extend AccountUpnSafe = tostring(column_ifexists("AccountUpn", ""))
+| extend UserPrincipalNameSafe = tostring(column_ifexists("UserPrincipalName", ""))
+| extend Account = iff(isnotempty(AccountUpnSafe), AccountUpnSafe, UserPrincipalNameSafe)
+| extend ClientAppUsedSafe = tostring(column_ifexists("ClientAppUsed", ""))
+| extend ClientAppSafe2 = tostring(column_ifexists("ClientApp", ""))
+| extend ClientApp = iff(isnotempty(ClientAppUsedSafe), ClientAppUsedSafe, ClientAppSafe2)
+| extend ApplicationSafe = tostring(column_ifexists("Application", ""))
+| extend AppDisplayNameSafe = tostring(column_ifexists("AppDisplayName", ""))
+| extend ApplicationName = iff(isnotempty(ApplicationSafe), ApplicationSafe, AppDisplayNameSafe)
+| extend IPAddressSafe = tostring(column_ifexists("IPAddress", ""))
+| extend ConditionalAccessStatusSafe = tostring(column_ifexists("ConditionalAccessStatus", ""))
+| where Account =~ TargetUser
+| where ClientApp has_any ("Other clients", "IMAP", "POP", "SMTP", "Exchange ActiveSync", "Legacy")
+| project Timestamp, Account, Application=ApplicationName, ClientApp, IPAddress=IPAddressSafe, ConditionalAccessStatus=ConditionalAccessStatusSafe
+| order by Timestamp desc

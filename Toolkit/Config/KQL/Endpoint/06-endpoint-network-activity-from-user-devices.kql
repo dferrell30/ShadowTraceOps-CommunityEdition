@@ -1,0 +1,23 @@
+// Shadow Trace Ops - Network activity from devices used by target user
+// Purpose: Pivot from target user's devices to outbound network activity.
+let TargetUser = "{TargetUser}";
+let Lookback = 30d;
+let UserDevices =
+    DeviceLogonEvents
+    | where Timestamp > ago(Lookback)
+    | extend AccountUpnSafe = tostring(column_ifexists("AccountUpn", "")),
+             AccountNameSafe = tostring(column_ifexists("AccountName", "")),
+             DeviceIdSafe = tostring(column_ifexists("DeviceId", "")),
+             DeviceNameSafe = tostring(column_ifexists("DeviceName", ""))
+    | where AccountUpnSafe =~ TargetUser or AccountNameSafe =~ split(TargetUser, "@")[0]
+    | summarize LastLogon=max(Timestamp) by DeviceIdSafe, DeviceNameSafe;
+DeviceNetworkEvents
+| where Timestamp > ago(Lookback)
+| extend DeviceIdSafe = tostring(column_ifexists("DeviceId", "")),
+         DeviceNameSafe = tostring(column_ifexists("DeviceName", "")),
+         RemoteUrlSafe = tostring(column_ifexists("RemoteUrl", "")),
+         RemoteIPSafe = tostring(column_ifexists("RemoteIP", "")),
+         InitiatingProcessFileNameSafe = tostring(column_ifexists("InitiatingProcessFileName", ""))
+| join kind=inner UserDevices on DeviceIdSafe
+| project Timestamp, DeviceName=DeviceNameSafe, RemoteUrl=RemoteUrlSafe, RemoteIP=RemoteIPSafe, InitiatingProcessFileName=InitiatingProcessFileNameSafe, LastLogon
+| order by Timestamp desc

@@ -1,0 +1,31 @@
+// Shadow Trace Ops - Rare country/location review for target user
+
+let TargetUser = "{TargetUser}";
+let Lookback = 30d;
+let Baseline =
+    EntraIdSignInEvents
+    | where Timestamp between (ago(90d) .. ago(30d))
+    | extend AccountUpnSafe = tostring(column_ifexists("AccountUpn", ""))
+    | extend UserPrincipalNameSafe = tostring(column_ifexists("UserPrincipalName", ""))
+    | extend Account = iff(isnotempty(AccountUpnSafe), AccountUpnSafe, UserPrincipalNameSafe)
+    | extend CountrySafe = tostring(column_ifexists("Country", ""))
+    | extend LocationSafe = tostring(column_ifexists("Location", ""))
+    | extend LocationName = iff(isnotempty(CountrySafe), CountrySafe, LocationSafe)
+    | where Account =~ TargetUser
+    | summarize by LocationName;
+EntraIdSignInEvents
+| where Timestamp > ago(Lookback)
+| extend AccountUpnSafe = tostring(column_ifexists("AccountUpn", ""))
+| extend UserPrincipalNameSafe = tostring(column_ifexists("UserPrincipalName", ""))
+| extend Account = iff(isnotempty(AccountUpnSafe), AccountUpnSafe, UserPrincipalNameSafe)
+| extend CountrySafe = tostring(column_ifexists("Country", ""))
+| extend LocationSafe = tostring(column_ifexists("Location", ""))
+| extend LocationName = iff(isnotempty(CountrySafe), CountrySafe, LocationSafe)
+| extend IPAddressSafe = tostring(column_ifexists("IPAddress", ""))
+| extend ApplicationSafe = tostring(column_ifexists("Application", ""))
+| extend AppDisplayNameSafe = tostring(column_ifexists("AppDisplayName", ""))
+| extend ApplicationName = iff(isnotempty(ApplicationSafe), ApplicationSafe, AppDisplayNameSafe)
+| where Account =~ TargetUser
+| join kind=leftanti Baseline on LocationName
+| project Timestamp, Account, Application=ApplicationName, IPAddress=IPAddressSafe, Country=LocationName
+| order by Timestamp desc

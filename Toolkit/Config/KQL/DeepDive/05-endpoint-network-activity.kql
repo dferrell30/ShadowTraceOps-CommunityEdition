@@ -1,0 +1,3 @@
+// Endpoint Network Activity
+DeviceNetworkEvents
+| project Timestamp, DeviceName, RemoteIP, RemoteUrl

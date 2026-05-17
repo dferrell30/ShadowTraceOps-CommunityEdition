@@ -1,0 +1,7 @@
+// Sender Domain Volume Spikes
+EmailEvents
+| where Timestamp > ago(7d)
+| summarize MsgCount=count(), Recipients=dcount(RecipientEmailAddress)
+    by bin(Timestamp, 1h), SenderFromDomain
+| where MsgCount > 20
+| sort by MsgCount desc

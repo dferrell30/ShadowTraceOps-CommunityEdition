@@ -1,0 +1,25 @@
+// Shadow Trace Ops - Failed Entra sign-ins for target user
+
+let TargetUser = "{TargetUser}";
+EntraIdSignInEvents
+| where Timestamp > ago(30d)
+| extend AccountUpnSafe = tostring(column_ifexists("AccountUpn", ""))
+| extend UserPrincipalNameSafe = tostring(column_ifexists("UserPrincipalName", ""))
+| extend Account = iff(isnotempty(AccountUpnSafe), AccountUpnSafe, UserPrincipalNameSafe)
+| extend ErrorCodeSafe = tostring(column_ifexists("ErrorCode", ""))
+| extend ResultTypeSafe = tostring(column_ifexists("ResultType", ""))
+| extend ResultCode = iff(isnotempty(ErrorCodeSafe), ErrorCodeSafe, ResultTypeSafe)
+| extend FailureReasonSafe = tostring(column_ifexists("FailureReason", ""))
+| extend StatusSafe = tostring(column_ifexists("Status", ""))
+| extend FailureReason = iff(isnotempty(FailureReasonSafe), FailureReasonSafe, StatusSafe)
+| extend ApplicationSafe = tostring(column_ifexists("Application", ""))
+| extend AppDisplayNameSafe = tostring(column_ifexists("AppDisplayName", ""))
+| extend ApplicationName = iff(isnotempty(ApplicationSafe), ApplicationSafe, AppDisplayNameSafe)
+| extend IPAddressSafe = tostring(column_ifexists("IPAddress", ""))
+| extend CountrySafe = tostring(column_ifexists("Country", ""))
+| extend LocationSafe = tostring(column_ifexists("Location", ""))
+| extend LocationName = iff(isnotempty(CountrySafe), CountrySafe, LocationSafe)
+| where Account =~ TargetUser
+| where ResultCode !in ("0", "", "Success") or FailureReason has_any ("failure", "failed", "interrupt")
+| project Timestamp, Account, Application=ApplicationName, IPAddress=IPAddressSafe, Country=LocationName, ErrorCode=ResultCode, FailureReason
+| order by Timestamp desc

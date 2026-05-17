@@ -1,0 +1,8 @@
+// Shadow Trace Ops - Authentication failures
+let TargetUser = "{TargetUser}";
+SigninLogs
+| where TimeGenerated > ago(30d)
+| where UserPrincipalName =~ TargetUser
+| where ResultType != 0
+| project TimeGenerated, UserPrincipalName, AppDisplayName, IPAddress, Location, ResultType, ResultDescription, ConditionalAccessStatus
+| order by TimeGenerated desc

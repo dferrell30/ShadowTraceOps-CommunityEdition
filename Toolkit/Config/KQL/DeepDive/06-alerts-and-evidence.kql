@@ -1,0 +1,3 @@
+// Alerts and Evidence
+AlertInfo
+| project Timestamp, Title, Severity, Category

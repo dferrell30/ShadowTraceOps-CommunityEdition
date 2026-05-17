@@ -1,0 +1,16 @@
+// Shadow Trace Ops - Legacy client/basic auth style patterns
+// Purpose: Identify older client/protocol use when the schema exposes client app fields.
+let TargetUser = "{TargetUser}";
+EntraIdSignInEvents
+| where Timestamp > ago(30d)
+| extend AccountUpnSafe = tostring(column_ifexists("AccountUpn", "")),
+         UserPrincipalNameSafe = tostring(column_ifexists("UserPrincipalName", "")),
+         Account = iff(isnotempty(AccountUpnSafe), AccountUpnSafe, UserPrincipalNameSafe),
+         ClientAppSafe = tostring(column_ifexists("ClientAppUsed", column_ifexists("ClientApp", ""))),
+         ApplicationSafe = tostring(column_ifexists("Application", column_ifexists("AppDisplayName", ""))),
+         IPAddressSafe = tostring(column_ifexists("IPAddress", "")),
+         ConditionalAccessStatusSafe = tostring(column_ifexists("ConditionalAccessStatus", ""))
+| where Account =~ TargetUser
+| where ClientAppSafe has_any ("Other clients", "IMAP", "POP", "SMTP", "Exchange ActiveSync", "Legacy")
+| project Timestamp, Account, Application=ApplicationSafe, ClientApp=ClientAppSafe, IPAddress=IPAddressSafe, ConditionalAccessStatus=ConditionalAccessStatusSafe
+| order by Timestamp desc

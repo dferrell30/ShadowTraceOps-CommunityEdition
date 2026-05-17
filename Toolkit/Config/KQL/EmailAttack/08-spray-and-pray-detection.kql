@@ -1,0 +1,4 @@
+// Spray-and-Pray Detection
+EmailEvents
+| summarize Domains=dcount(SenderFromDomain) by RecipientEmailAddress
+| where Domains >= 10

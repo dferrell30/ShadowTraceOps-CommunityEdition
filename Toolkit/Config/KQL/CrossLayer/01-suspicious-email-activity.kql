@@ -1,0 +1,4 @@
+// Suspicious Email Activity
+EmailEvents
+| where ThreatTypes has "Phish"
+| project Timestamp, SenderFromAddress, RecipientEmailAddress, Subject, ThreatTypes

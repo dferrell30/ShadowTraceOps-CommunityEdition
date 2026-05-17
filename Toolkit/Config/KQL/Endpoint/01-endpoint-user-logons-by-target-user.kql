@@ -1,0 +1,15 @@
+// Shadow Trace Ops - Endpoint user logons by target user
+// Purpose: Identify devices where the target user logged on.
+// Replace {TargetUser} when running manually in Advanced Hunting.
+let TargetUser = "{TargetUser}";
+DeviceLogonEvents
+| where Timestamp > ago(30d)
+| extend AccountUpnSafe = tostring(column_ifexists("AccountUpn", "")),
+         AccountNameSafe = tostring(column_ifexists("AccountName", "")),
+         DeviceNameSafe = tostring(column_ifexists("DeviceName", "")),
+         LogonTypeSafe = tostring(column_ifexists("LogonType", "")),
+         ActionTypeSafe = tostring(column_ifexists("ActionType", "")),
+         RemoteIPSafe = tostring(column_ifexists("RemoteIP", ""))
+| where AccountUpnSafe =~ TargetUser or AccountNameSafe =~ split(TargetUser, "@")[0]
+| project Timestamp, DeviceName=DeviceNameSafe, AccountUpn=AccountUpnSafe, AccountName=AccountNameSafe, LogonType=LogonTypeSafe, ActionType=ActionTypeSafe, RemoteIP=RemoteIPSafe
+| order by Timestamp desc

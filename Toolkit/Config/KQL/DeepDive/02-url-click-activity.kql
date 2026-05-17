@@ -1,0 +1,3 @@
+// URL Click Activity
+UrlClickEvents
+| project Timestamp, AccountUpn, Url, ActionType

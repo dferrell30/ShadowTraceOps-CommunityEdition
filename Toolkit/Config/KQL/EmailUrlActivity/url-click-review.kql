@@ -1,0 +1,7 @@
+// Shadow Trace Ops - URL click review
+let TargetUser = "{TargetUser}";
+UrlClickEvents
+| where Timestamp > ago(30d)
+| where AccountUpn =~ TargetUser
+| project Timestamp, AccountUpn, Url, ActionType, Workload, NetworkMessageId
+| order by Timestamp desc

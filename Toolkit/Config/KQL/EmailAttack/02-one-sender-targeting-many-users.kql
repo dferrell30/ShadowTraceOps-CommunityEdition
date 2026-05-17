@@ -1,0 +1,7 @@
+// One Sender Targeting Many Users
+EmailEvents
+| where Timestamp > ago(7d)
+| summarize TotalMessages=count(), TargetedUsers=dcount(RecipientEmailAddress)
+    by SenderFromAddress, SenderFromDomain
+| where TargetedUsers >= 10
+| sort by TargetedUsers desc

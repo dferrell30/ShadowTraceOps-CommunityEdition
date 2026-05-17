@@ -1,0 +1,9 @@
+// Shadow Trace Ops - Unmanaged or unknown device sign-ins
+let TargetUser = "{TargetUser}";
+SigninLogs
+| where TimeGenerated > ago(30d)
+| where UserPrincipalName =~ TargetUser
+| extend TrustType = tostring(DeviceDetail.trustType)
+| where isempty(TrustType) or TrustType =~ "unknown" or TrustType =~ "none"
+| project TimeGenerated, UserPrincipalName, AppDisplayName, IPAddress, Location, TrustType, ConditionalAccessStatus, Status
+| order by TimeGenerated desc

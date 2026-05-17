@@ -1,0 +1,17 @@
+// Shadow Trace Ops - Unmanaged or non-compliant device sign-ins
+let TargetUser = "{TargetUser}";
+EntraIdSignInEvents
+| where Timestamp > ago(30d)
+| extend AccountUpnSafe = tostring(column_ifexists("AccountUpn", "")),
+         UserPrincipalNameSafe = tostring(column_ifexists("UserPrincipalName", "")),
+         Account = iff(isnotempty(AccountUpnSafe), AccountUpnSafe, UserPrincipalNameSafe),
+         DeviceTrustTypeSafe = tostring(column_ifexists("DeviceTrustType", column_ifexists("TrustType", ""))),
+         IsCompliantSafe = tostring(column_ifexists("IsCompliant", "")),
+         DeviceNameSafe = tostring(column_ifexists("DeviceName", "")),
+         ApplicationSafe = tostring(column_ifexists("Application", column_ifexists("AppDisplayName", ""))),
+         IPAddressSafe = tostring(column_ifexists("IPAddress", "")),
+         ConditionalAccessStatusSafe = tostring(column_ifexists("ConditionalAccessStatus", ""))
+| where Account =~ TargetUser
+| where isempty(DeviceTrustTypeSafe) or DeviceTrustTypeSafe in~ ("none","unknown","unmanaged") or IsCompliantSafe =~ "false"
+| project Timestamp, Account, Application=ApplicationSafe, IPAddress=IPAddressSafe, DeviceName=DeviceNameSafe, DeviceTrustType=DeviceTrustTypeSafe, IsCompliant=IsCompliantSafe, ConditionalAccessStatus=ConditionalAccessStatusSafe
+| order by Timestamp desc

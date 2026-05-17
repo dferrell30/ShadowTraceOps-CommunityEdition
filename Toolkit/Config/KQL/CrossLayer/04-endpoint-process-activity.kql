@@ -1,0 +1,3 @@
+// Endpoint Process Activity
+DeviceProcessEvents
+| project Timestamp, DeviceName, AccountName, FileName, ProcessCommandLine

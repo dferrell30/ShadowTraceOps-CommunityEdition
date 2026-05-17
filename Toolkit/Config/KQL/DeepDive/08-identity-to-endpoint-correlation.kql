@@ -1,0 +1,4 @@
+// Identity to Endpoint Correlation Example
+IdentityLogonEvents
+| join DeviceProcessEvents on AccountName
+| project Timestamp, AccountName, DeviceName, FileName

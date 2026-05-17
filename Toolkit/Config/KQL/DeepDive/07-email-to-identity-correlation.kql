@@ -1,0 +1,5 @@
+// Email to Identity Correlation Example
+EmailEvents
+| where ThreatTypes has "Phish"
+| join IdentityLogonEvents on AccountUpn
+| project Timestamp, AccountUpn, IPAddress

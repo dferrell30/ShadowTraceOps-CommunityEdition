@@ -1,0 +1,6 @@
+// Shadow Trace Ops - OAuth / App Consent Review
+CloudAppEvents
+| where Timestamp > ago(30d)
+| where ActionType has_any ("Consent", "Add service principal", "Add delegated permission grant")
+| project Timestamp, AccountDisplayName, Application, ActionType, RawEventData
+| order by Timestamp desc

@@ -1,0 +1,10 @@
+// Delivered Emails with Click Activity
+EmailEvents
+| where Timestamp > ago(7d)
+| project NetworkMessageId, RecipientEmailAddress, Subject, SenderFromAddress, DeliveryAction
+| join kind=inner (
+    UrlClickEvents
+    | project NetworkMessageId, AccountUpn, Url, ActionType, ClickTime=Timestamp
+) on NetworkMessageId
+| project ClickTime, AccountUpn, RecipientEmailAddress, Subject, SenderFromAddress, DeliveryAction, Url, ActionType, NetworkMessageId
+| sort by ClickTime desc
