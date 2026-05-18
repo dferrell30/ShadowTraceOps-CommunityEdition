@@ -1,6 +1,6 @@
 // Malicious Attachment Campaigns
 EmailAttachmentInfo
-| where Timestamp > ago(14d)
+| where Timestamp > ago({LookbackDays}d)
 | summarize Recipients=dcount(RecipientEmailAddress) by SHA256
 | where Recipients >= 5
 | sort by Recipients desc

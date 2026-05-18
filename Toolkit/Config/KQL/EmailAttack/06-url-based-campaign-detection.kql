@@ -1,5 +1,5 @@
 // URL-Based Campaign Detection
 EmailUrlInfo
-| where Timestamp > ago(14d)
+| where Timestamp > ago({LookbackDays}d)
 | summarize Messages=dcount(NetworkMessageId) by UrlDomain
 | sort by Messages desc

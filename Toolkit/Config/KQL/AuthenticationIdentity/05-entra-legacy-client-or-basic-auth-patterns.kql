@@ -2,7 +2,7 @@
 
 let TargetUser = "{TargetUser}";
 EntraIdSignInEvents
-| where Timestamp > ago(30d)
+| where Timestamp > ago({LookbackDays}d)
 | extend AccountUpnSafe = tostring(column_ifexists("AccountUpn", ""))
 | extend UserPrincipalNameSafe = tostring(column_ifexists("UserPrincipalName", ""))
 | extend Account = iff(isnotempty(AccountUpnSafe), AccountUpnSafe, UserPrincipalNameSafe)

@@ -2,7 +2,7 @@
 // Purpose: Use when IdentityLogonEvents is available for identity-provider or Defender for Identity style telemetry.
 let TargetUser = "{TargetUser}";
 IdentityLogonEvents
-| where Timestamp > ago(30d)
+| where Timestamp > ago({LookbackDays}d)
 | extend AccountUpnSafe = tostring(column_ifexists("AccountUpn", "")),
          AccountNameSafe = tostring(column_ifexists("AccountName", "")),
          DeviceNameSafe = tostring(column_ifexists("DeviceName", "")),

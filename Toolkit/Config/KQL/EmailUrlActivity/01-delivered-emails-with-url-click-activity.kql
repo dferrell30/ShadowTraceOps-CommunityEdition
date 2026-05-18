@@ -4,7 +4,7 @@
 // This helps identify phishing delivery followed by user interaction.
 
 EmailEvents
-| where Timestamp > ago(7d)
+| where Timestamp > ago({LookbackDays}d)
 | project NetworkMessageId, RecipientEmailAddress, Subject, SenderFromAddress, DeliveryAction
 | join kind=inner (
     UrlClickEvents

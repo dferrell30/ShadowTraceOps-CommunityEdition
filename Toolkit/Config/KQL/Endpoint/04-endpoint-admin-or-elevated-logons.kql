@@ -3,7 +3,7 @@
 // Note: IsLocalAdmin may not exist in every tenant/schema; column_ifexists keeps this query safer.
 let TargetUser = "{TargetUser}";
 DeviceLogonEvents
-| where Timestamp > ago(30d)
+| where Timestamp > ago({LookbackDays}d)
 | extend AccountUpnSafe = tostring(column_ifexists("AccountUpn", "")),
          AccountNameSafe = tostring(column_ifexists("AccountName", "")),
          DeviceNameSafe = tostring(column_ifexists("DeviceName", "")),

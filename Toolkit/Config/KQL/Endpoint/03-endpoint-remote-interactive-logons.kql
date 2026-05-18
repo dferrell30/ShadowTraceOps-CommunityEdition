@@ -2,7 +2,7 @@
 // Purpose: Review remote interactive access for the target user.
 let TargetUser = "{TargetUser}";
 DeviceLogonEvents
-| where Timestamp > ago(30d)
+| where Timestamp > ago({LookbackDays}d)
 | extend AccountUpnSafe = tostring(column_ifexists("AccountUpn", "")),
          AccountNameSafe = tostring(column_ifexists("AccountName", "")),
          DeviceNameSafe = tostring(column_ifexists("DeviceName", "")),

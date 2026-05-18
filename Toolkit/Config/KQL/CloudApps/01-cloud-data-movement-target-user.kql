@@ -1,7 +1,7 @@
 // Shadow Trace Ops - Cloud App Data Movement for Target User
 let TargetUser = "{TargetUser}";
 CloudAppEvents
-| where Timestamp > ago(30d)
+| where Timestamp > ago({LookbackDays}d)
 | where AccountUpn =~ TargetUser or AccountDisplayName has split(TargetUser, "@")[0]
 | where ActionType has_any ("Download", "FileDownloaded", "Share", "AnonymousLinkCreated", "Upload")
 | project Timestamp, AccountUpn, AccountDisplayName, Application, ActionType, IPAddress, ObjectName, RawEventData
