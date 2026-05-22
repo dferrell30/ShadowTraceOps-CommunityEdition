@@ -1,0 +1,18 @@
+// Shadow Trace Ops
+let TargetUser = "{TargetUser}";
+let TargetAccount = "{TargetAccount}";
+let Lookback = {LookbackDays}d;
+let SignIns = AADSignInEventsBeta
+| where Timestamp > ago(Lookback)
+| where AccountUpn =~ TargetUser
+| project Timestamp, Source="SignIn", Entity=AccountUpn, Detail=strcat(Application, " / ErrorCode: ", tostring(ErrorCode)), IPAddress;
+let UrlClicks = UrlClickEvents
+| where Timestamp > ago(Lookback)
+| where AccountUpn =~ TargetUser
+| project Timestamp, Source="URLClick", Entity=AccountUpn, Detail=strcat(ActionType, " / ", Url), IPAddress="";
+let DeviceLogons = DeviceLogonEvents
+| where Timestamp > ago(Lookback)
+| where AccountUpn =~ TargetUser or AccountName =~ TargetAccount
+| project Timestamp, Source="DeviceLogon", Entity=coalesce(AccountUpn, AccountName), Detail=strcat(DeviceName, " / ", LogonType, " / ", ActionType), IPAddress=RemoteIP;
+union SignIns, UrlClicks, DeviceLogons
+| order by Timestamp desc

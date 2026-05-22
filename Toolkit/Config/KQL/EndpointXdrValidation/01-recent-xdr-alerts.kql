@@ -1,0 +1,5 @@
+// Shadow Trace Ops
+AlertInfo
+| where Timestamp > ago({LookbackDays}d)
+| project Timestamp, AlertId, Title, Severity, Category, DetectionSource, ServiceSource
+| order by Timestamp desc

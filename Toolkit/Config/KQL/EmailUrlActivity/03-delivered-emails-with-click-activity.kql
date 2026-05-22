@@ -1,0 +1,15 @@
+// Shadow Trace Ops
+let TargetUser = "{TargetUser}";
+let Lookback = {LookbackDays}d;
+EmailEvents
+| where Timestamp > ago(Lookback)
+| where RecipientEmailAddress =~ TargetUser
+| project NetworkMessageId, RecipientEmailAddress, Subject, SenderFromAddress, DeliveryAction, ThreatTypes
+| join kind=inner (
+    UrlClickEvents
+    | where Timestamp > ago(Lookback)
+    | where AccountUpn =~ TargetUser
+    | project NetworkMessageId, AccountUpn, Url, ActionType, ClickTime=Timestamp
+) on NetworkMessageId
+| project ClickTime, AccountUpn, RecipientEmailAddress, Subject, SenderFromAddress, DeliveryAction, ThreatTypes, Url, ActionType, NetworkMessageId
+| order by ClickTime desc

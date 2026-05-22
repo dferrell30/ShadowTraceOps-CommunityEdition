@@ -1,0 +1,8 @@
+// Shadow Trace Ops
+let TargetUser = "{TargetUser}";
+let Lookback = {LookbackDays}d;
+AADSignInEventsBeta
+| where Timestamp > ago(Lookback)
+| where AccountUpn =~ TargetUser
+| project Timestamp, AccountUpn, Application, LogonType, ErrorCode, ConditionalAccessStatus, IPAddress, Country, State, City, DeviceName, IsCompliant, IsManaged
+| order by Timestamp desc

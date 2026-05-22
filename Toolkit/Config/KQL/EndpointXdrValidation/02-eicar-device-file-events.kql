@@ -1,0 +1,6 @@
+// Shadow Trace Ops
+DeviceFileEvents
+| where Timestamp > ago({LookbackDays}d)
+| where FileName has "eicar" or FolderPath has "eicar" or InitiatingProcessCommandLine has "eicar"
+| project Timestamp, DeviceName, FileName, FolderPath, ActionType, SHA256, InitiatingProcessFileName, InitiatingProcessCommandLine
+| order by Timestamp desc

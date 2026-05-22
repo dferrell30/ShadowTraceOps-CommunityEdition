@@ -1,0 +1,9 @@
+// Shadow Trace Ops
+let TargetUser = "{TargetUser}";
+let TargetAccount = "{TargetAccount}";
+let Lookback = {LookbackDays}d;
+DeviceLogonEvents
+| where Timestamp > ago(Lookback)
+| where AccountUpn =~ TargetUser or AccountName =~ TargetAccount
+| project Timestamp, DeviceName, AccountUpn, AccountName, LogonType, ActionType, RemoteIP, FailureReason, Protocol
+| order by Timestamp desc

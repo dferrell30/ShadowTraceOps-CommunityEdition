@@ -1,0 +1,9 @@
+// Shadow Trace Ops
+let TargetUser = "{TargetUser}";
+let TargetAccount = "{TargetAccount}";
+let Lookback = {LookbackDays}d;
+DeviceProcessEvents
+| where Timestamp > ago(Lookback)
+| where AccountUpn =~ TargetUser or AccountName =~ TargetAccount or InitiatingProcessAccountUpn =~ TargetUser
+| project Timestamp, DeviceName, AccountUpn, FileName, ProcessCommandLine, InitiatingProcessFileName, InitiatingProcessCommandLine, SHA256
+| order by Timestamp desc

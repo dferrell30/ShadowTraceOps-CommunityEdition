@@ -1,0 +1,5 @@
+// Shadow Trace Ops
+AlertEvidence
+| where Timestamp > ago({LookbackDays}d)
+| project Timestamp, AlertId, EntityType, EvidenceRole, DeviceName, AccountName, AccountUpn, FileName, FolderPath, RemoteUrl, RemoteIP
+| order by Timestamp desc

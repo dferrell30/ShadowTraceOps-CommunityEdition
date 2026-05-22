@@ -1,0 +1,10 @@
+{
+  "Name": "Shadow Trace Ops KQL Pack",
+  "Version": "RestoredPopOutBlade",
+  "Parameters": [
+    "{TargetUser}",
+    "{TargetAccount}",
+    "{TargetDomain}",
+    "{LookbackDays}"
+  ]
+}

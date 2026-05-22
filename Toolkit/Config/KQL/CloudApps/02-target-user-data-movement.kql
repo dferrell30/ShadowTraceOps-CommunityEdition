@@ -1,0 +1,10 @@
+// Shadow Trace Ops
+let TargetUser = "{TargetUser}";
+let TargetAccount = "{TargetAccount}";
+let Lookback = {LookbackDays}d;
+CloudAppEvents
+| where Timestamp > ago(Lookback)
+| where AccountUpn =~ TargetUser or AccountDisplayName has TargetAccount
+| where ActionType has_any ("Download", "FileDownloaded", "Upload", "FileUploaded", "Share", "AnonymousLinkCreated", "SecureLinkCreated")
+| project Timestamp, AccountUpn, Application, ActionType, IPAddress, ObjectName, RawEventData
+| order by Timestamp desc

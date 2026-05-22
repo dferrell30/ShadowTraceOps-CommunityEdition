@@ -1,0 +1,8 @@
+// Shadow Trace Ops
+let TargetUser = "{TargetUser}";
+let Lookback = {LookbackDays}d;
+EmailEvents
+| where Timestamp > ago(Lookback)
+| where RecipientEmailAddress =~ TargetUser
+| project Timestamp, RecipientEmailAddress, SenderFromAddress, SenderMailFromAddress, Subject, DeliveryAction, ThreatTypes, DetectionMethods, NetworkMessageId
+| order by Timestamp desc

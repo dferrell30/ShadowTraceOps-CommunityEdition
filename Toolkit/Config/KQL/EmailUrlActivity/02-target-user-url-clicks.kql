@@ -1,0 +1,8 @@
+// Shadow Trace Ops
+let TargetUser = "{TargetUser}";
+let Lookback = {LookbackDays}d;
+UrlClickEvents
+| where Timestamp > ago(Lookback)
+| where AccountUpn =~ TargetUser
+| project Timestamp, AccountUpn, Url, ActionType, Workload, NetworkMessageId
+| order by Timestamp desc
