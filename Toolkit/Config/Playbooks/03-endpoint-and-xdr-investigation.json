@@ -1,0 +1,37 @@
+{
+  "Area": "03 - Endpoint & XDR Investigation",
+  "Title": "03 - Endpoint & XDR Investigation",
+  "Phase": 3,
+  "Severity": "High",
+  "Category": "EndpointXdrValidation",
+  "WhyItMatters": "Phase 3: Endpoint & XDR Investigation. Use this in order to guide the analyst through a consistent investigation workflow.",
+  "Triggers": [
+    "EICAR",
+    "Defender alert",
+    "endpoint telemetry",
+    "AlertInfo",
+    "AlertEvidence",
+    "DeviceFileEvents"
+  ],
+  "ReviewSteps": [
+    "Open this playbook card in the existing pop-out blade.",
+    "Run the related KQL in the order shown.",
+    "Validate returned rows against raw telemetry and source health.",
+    "Document findings before moving to the next phase."
+  ],
+  "RelatedQueries": [
+    "EndpointXdrValidation/01-recent-xdr-alerts.kql",
+    "EndpointXdrValidation/02-eicar-device-file-events.kql",
+    "EndpointXdrValidation/03-alert-evidence-recent.kql",
+    "EndpointXdrValidation/04-target-user-device-logons.kql",
+    "EndpointXdrValidation/05-target-user-process-execution.kql",
+    "EndpointXdrValidation/06-powershell-script-activity-target-user.kql"
+  ],
+  "ExpectedResults": "Rows should return when relevant telemetry exists and permissions/tables are available.",
+  "NoResultsMeaning": "No matching telemetry, missing permission, unavailable table, or no matching activity for the target user.",
+  "RecommendedActions": [
+    "Validate telemetry availability.",
+    "Use returned evidence to guide pivots.",
+    "Do not remediate until findings are confirmed."
+  ]
+}

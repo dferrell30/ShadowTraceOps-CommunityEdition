@@ -1,0 +1,13 @@
+{
+  "Phase": 2,
+  "Title": "Email & Initial Access",
+  "Severity": "High",
+  "Goal": "Validate whether email delivery, phishing, or URL click activity occurred.",
+  "Priority": "INITIAL ACCESS REVIEW",
+  "Summary": "EmailEvents, UrlClickEvents, Safe Links, message-to-click correlation.",
+  "RelatedQueries": [
+    "EmailUrlActivity/01-target-user-email-events.kql",
+    "EmailUrlActivity/02-target-user-url-clicks.kql",
+    "EmailUrlActivity/03-delivered-emails-with-click-activity.kql"
+  ]
+}

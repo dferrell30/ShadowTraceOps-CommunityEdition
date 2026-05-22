@@ -1,0 +1,33 @@
+{
+  "Area": "02 - Email & Initial Access",
+  "Title": "02 - Email & Initial Access",
+  "Phase": 2,
+  "Severity": "High",
+  "Category": "EmailUrlActivity",
+  "WhyItMatters": "Phase 2: Email & Initial Access. Use this in order to guide the analyst through a consistent investigation workflow.",
+  "Triggers": [
+    "phishing",
+    "EmailEvents",
+    "UrlClickEvents",
+    "Safe Links",
+    "URL click"
+  ],
+  "ReviewSteps": [
+    "Open this playbook card in the existing pop-out blade.",
+    "Run the related KQL in the order shown.",
+    "Validate returned rows against raw telemetry and source health.",
+    "Document findings before moving to the next phase."
+  ],
+  "RelatedQueries": [
+    "EmailUrlActivity/01-target-user-email-events.kql",
+    "EmailUrlActivity/02-target-user-url-clicks.kql",
+    "EmailUrlActivity/03-delivered-emails-with-click-activity.kql"
+  ],
+  "ExpectedResults": "Rows should return when relevant telemetry exists and permissions/tables are available.",
+  "NoResultsMeaning": "No matching telemetry, missing permission, unavailable table, or no matching activity for the target user.",
+  "RecommendedActions": [
+    "Validate telemetry availability.",
+    "Use returned evidence to guide pivots.",
+    "Do not remediate until findings are confirmed."
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "Area": "05 - Cloud Apps & Data Movement",
+  "Title": "05 - Cloud Apps & Data Movement",
+  "Phase": 5,
+  "Severity": "Medium",
+  "Category": "CloudApps",
+  "WhyItMatters": "Phase 5: Cloud Apps & Data Movement. Use this in order to guide the analyst through a consistent investigation workflow.",
+  "Triggers": [
+    "CloudAppEvents",
+    "download",
+    "upload",
+    "share",
+    "DLP"
+  ],
+  "ReviewSteps": [
+    "Open this playbook card in the existing pop-out blade.",
+    "Run the related KQL in the order shown.",
+    "Validate returned rows against raw telemetry and source health.",
+    "Document findings before moving to the next phase."
+  ],
+  "RelatedQueries": [
+    "CloudApps/01-target-user-cloud-app-activity.kql",
+    "CloudApps/02-target-user-data-movement.kql"
+  ],
+  "ExpectedResults": "Rows should return when relevant telemetry exists and permissions/tables are available.",
+  "NoResultsMeaning": "No matching telemetry, missing permission, unavailable table, or no matching activity for the target user.",
+  "RecommendedActions": [
+    "Validate telemetry availability.",
+    "Use returned evidence to guide pivots.",
+    "Do not remediate until findings are confirmed."
+  ]
+}

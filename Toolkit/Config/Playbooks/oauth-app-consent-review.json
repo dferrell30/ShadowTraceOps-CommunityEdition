@@ -1,0 +1,22 @@
+{
+  "Area": "OAuth / App Consent Review",
+  "Category": "OAuth",
+  "Severity": "Medium",
+  "WhyItMatters": "Provides parameterized KQL for OAuth / App Consent Review.",
+  "ReviewSteps": [
+    "Run the related KQL.",
+    "Validate returned rows.",
+    "Document findings in analyst notes.",
+    "Pivot to related telemetry if suspicious."
+  ],
+  "RelatedQueries": [
+    "OAuth/01-target-user-oauth-consent-events.kql"
+  ],
+  "ExpectedResults": "Rows should return when telemetry exists and permissions/tables are available.",
+  "NoResultsMeaning": "No rows, missing permissions, missing table, or no matching activity.",
+  "RecommendedActions": [
+    "Review source health.",
+    "Validate table availability.",
+    "Use returned rows for pivots."
+  ]
+}

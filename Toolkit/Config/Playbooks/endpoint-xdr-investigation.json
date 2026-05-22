@@ -1,0 +1,24 @@
+{
+  "Area": "Endpoint / XDR Investigation",
+  "Category": "EndpointXdrValidation",
+  "Severity": "High",
+  "WhyItMatters": "Provides parameterized KQL for Endpoint / XDR Investigation.",
+  "ReviewSteps": [
+    "Run the related KQL.",
+    "Validate returned rows.",
+    "Document findings in analyst notes.",
+    "Pivot to related telemetry if suspicious."
+  ],
+  "RelatedQueries": [
+    "EndpointXdrValidation/04-target-user-device-logons.kql",
+    "EndpointXdrValidation/05-target-user-process-execution.kql",
+    "EndpointXdrValidation/06-powershell-script-activity-target-user.kql"
+  ],
+  "ExpectedResults": "Rows should return when telemetry exists and permissions/tables are available.",
+  "NoResultsMeaning": "No rows, missing permissions, missing table, or no matching activity.",
+  "RecommendedActions": [
+    "Review source health.",
+    "Validate table availability.",
+    "Use returned rows for pivots."
+  ]
+}

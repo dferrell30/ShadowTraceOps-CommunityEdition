@@ -1,0 +1,11 @@
+{
+  "Phase": 4,
+  "Title": "OAuth & App Consent Review",
+  "Severity": "Medium",
+  "Goal": "Validate delegated access, app consent, and potential cloud persistence.",
+  "Priority": "PERSISTENCE REVIEW",
+  "Summary": "OAuth consent, delegated permissions, app activity, service principal review.",
+  "RelatedQueries": [
+    "OAuth/01-target-user-oauth-consent-events.kql"
+  ]
+}

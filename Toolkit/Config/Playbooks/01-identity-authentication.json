@@ -1,0 +1,13 @@
+{
+  "Phase": 1,
+  "Title": "Identity & Authentication",
+  "Severity": "High",
+  "Goal": "Validate whether the identity or authentication flow is suspicious.",
+  "Priority": "START HERE",
+  "Summary": "Sign-ins, failed authentication, MFA/CA review, risky or unmanaged access.",
+  "RelatedQueries": [
+    "AuthenticationIdentity/01-target-user-signin-summary.kql",
+    "AuthenticationIdentity/02-target-user-failed-signins.kql",
+    "AuthenticationIdentity/03-target-user-unmanaged-device-signins.kql"
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "Area": "Endpoint / XDR Validation",
+  "Severity": "High",
+  "Category": "EndpointXdrValidation",
+  "WhyItMatters": "Validates whether Defender XDR and Advanced Hunting are producing raw endpoint evidence before interpretation.",
+  "Triggers": [
+    "EICAR",
+    "Defender alert",
+    "endpoint telemetry",
+    "XDR validation"
+  ],
+  "ReviewSteps": [
+    "Confirm Graph security alerts_v2 returned alerts.",
+    "Confirm Advanced Hunting AlertInfo returned rows.",
+    "Confirm EICAR appears in DeviceFileEvents.",
+    "Confirm AlertEvidence has device or file evidence.",
+    "If all sources are empty after EICAR, validate Defender onboarding, RBAC, Graph scopes, and table availability."
+  ],
+  "RelatedQueries": [
+    "EndpointXdrValidation/01-recent-xdr-alerts.kql",
+    "EndpointXdrValidation/02-eicar-device-file-events.kql",
+    "EndpointXdrValidation/03-alert-evidence-recent.kql"
+  ],
+  "ExpectedResults": "Rows should appear when Defender alerts or EICAR detections are present and accessible.",
+  "NoResultsMeaning": "No rows means either no recent signal was available or required licensing, role access, or telemetry is unavailable.",
+  "RecommendedActions": [
+    "Check Defender portal for EICAR alert.",
+    "Validate SecurityAlert.Read.All and SecurityIncident.Read.All.",
+    "Validate ThreatHunting.Read.All and Defender XDR role access.",
+    "Validate Defender for Endpoint onboarding."
+  ]
+}

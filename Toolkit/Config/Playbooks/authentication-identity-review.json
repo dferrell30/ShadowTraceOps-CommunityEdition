@@ -1,0 +1,24 @@
+{
+  "Area": "Authentication & Identity Review",
+  "Category": "AuthenticationIdentity",
+  "Severity": "High",
+  "WhyItMatters": "Provides parameterized KQL for Authentication & Identity Review.",
+  "ReviewSteps": [
+    "Run the related KQL.",
+    "Validate returned rows.",
+    "Document findings in analyst notes.",
+    "Pivot to related telemetry if suspicious."
+  ],
+  "RelatedQueries": [
+    "AuthenticationIdentity/01-target-user-signin-summary.kql",
+    "AuthenticationIdentity/02-target-user-failed-signins.kql",
+    "AuthenticationIdentity/03-target-user-unmanaged-device-signins.kql"
+  ],
+  "ExpectedResults": "Rows should return when telemetry exists and permissions/tables are available.",
+  "NoResultsMeaning": "No rows, missing permissions, missing table, or no matching activity.",
+  "RecommendedActions": [
+    "Review source health.",
+    "Validate table availability.",
+    "Use returned rows for pivots."
+  ]
+}

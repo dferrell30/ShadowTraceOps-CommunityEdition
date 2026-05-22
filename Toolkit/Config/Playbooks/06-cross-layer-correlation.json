@@ -1,0 +1,30 @@
+{
+  "Area": "06 - Cross-Layer Correlation",
+  "Title": "06 - Cross-Layer Correlation",
+  "Phase": 6,
+  "Severity": "Advisory",
+  "Category": "CrossLayer",
+  "WhyItMatters": "Phase 6: Cross-Layer Correlation. Use this in order to guide the analyst through a consistent investigation workflow.",
+  "Triggers": [
+    "timeline",
+    "correlation",
+    "entity pivot",
+    "hunting to detection"
+  ],
+  "ReviewSteps": [
+    "Open this playbook card in the existing pop-out blade.",
+    "Run the related KQL in the order shown.",
+    "Validate returned rows against raw telemetry and source health.",
+    "Document findings before moving to the next phase."
+  ],
+  "RelatedQueries": [
+    "CrossLayer/01-user-timeline-correlation.kql"
+  ],
+  "ExpectedResults": "Rows should return when relevant telemetry exists and permissions/tables are available.",
+  "NoResultsMeaning": "No matching telemetry, missing permission, unavailable table, or no matching activity for the target user.",
+  "RecommendedActions": [
+    "Validate telemetry availability.",
+    "Use returned evidence to guide pivots.",
+    "Do not remediate until findings are confirmed."
+  ]
+}

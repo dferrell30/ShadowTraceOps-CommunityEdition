@@ -1,0 +1,12 @@
+{
+  "Phase": 5,
+  "Title": "Cloud Apps & Data Movement",
+  "Severity": "Medium",
+  "Goal": "Validate cloud app actions, uploads, downloads, sharing, and possible data exposure.",
+  "Priority": "IMPACT REVIEW",
+  "Summary": "CloudAppEvents, downloads, uploads, sharing, anonymous links, DLP visibility.",
+  "RelatedQueries": [
+    "CloudApps/01-target-user-cloud-app-activity.kql",
+    "CloudApps/02-target-user-data-movement.kql"
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "Area": "Email & URL Activity Review",
+  "Category": "EmailUrlActivity",
+  "Severity": "Medium",
+  "WhyItMatters": "Provides parameterized KQL for Email & URL Activity Review.",
+  "ReviewSteps": [
+    "Run the related KQL.",
+    "Validate returned rows.",
+    "Document findings in analyst notes.",
+    "Pivot to related telemetry if suspicious."
+  ],
+  "RelatedQueries": [
+    "EmailUrlActivity/01-target-user-email-events.kql",
+    "EmailUrlActivity/02-target-user-url-clicks.kql",
+    "EmailUrlActivity/03-delivered-emails-with-click-activity.kql"
+  ],
+  "ExpectedResults": "Rows should return when telemetry exists and permissions/tables are available.",
+  "NoResultsMeaning": "No rows, missing permissions, missing table, or no matching activity.",
+  "RecommendedActions": [
+    "Review source health.",
+    "Validate table availability.",
+    "Use returned rows for pivots."
+  ]
+}

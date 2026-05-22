@@ -1,0 +1,16 @@
+{
+  "Phase": 3,
+  "Title": "Endpoint & XDR Investigation",
+  "Severity": "High",
+  "Goal": "Validate endpoint alerts, device logons, process/script execution, and raw XDR evidence.",
+  "Priority": "ESCALATION PHASE",
+  "Summary": "AlertInfo, AlertEvidence, DeviceFileEvents, DeviceProcessEvents, DeviceLogonEvents.",
+  "RelatedQueries": [
+    "EndpointXdrValidation/01-recent-xdr-alerts.kql",
+    "EndpointXdrValidation/02-eicar-device-file-events.kql",
+    "EndpointXdrValidation/03-alert-evidence-recent.kql",
+    "EndpointXdrValidation/04-target-user-device-logons.kql",
+    "EndpointXdrValidation/05-target-user-process-execution.kql",
+    "EndpointXdrValidation/06-powershell-script-activity-target-user.kql"
+  ]
+}

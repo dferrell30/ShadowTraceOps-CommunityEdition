@@ -1,0 +1,30 @@
+{
+  "Area": "04 - OAuth & App Consent Review",
+  "Title": "04 - OAuth & App Consent Review",
+  "Phase": 4,
+  "Severity": "Medium",
+  "Category": "OAuth",
+  "WhyItMatters": "Phase 4: OAuth & App Consent Review. Use this in order to guide the analyst through a consistent investigation workflow.",
+  "Triggers": [
+    "OAuth",
+    "consent",
+    "delegated permission",
+    "offline_access"
+  ],
+  "ReviewSteps": [
+    "Open this playbook card in the existing pop-out blade.",
+    "Run the related KQL in the order shown.",
+    "Validate returned rows against raw telemetry and source health.",
+    "Document findings before moving to the next phase."
+  ],
+  "RelatedQueries": [
+    "OAuth/01-target-user-oauth-consent-events.kql"
+  ],
+  "ExpectedResults": "Rows should return when relevant telemetry exists and permissions/tables are available.",
+  "NoResultsMeaning": "No matching telemetry, missing permission, unavailable table, or no matching activity for the target user.",
+  "RecommendedActions": [
+    "Validate telemetry availability.",
+    "Use returned evidence to guide pivots.",
+    "Do not remediate until findings are confirmed."
+  ]
+}

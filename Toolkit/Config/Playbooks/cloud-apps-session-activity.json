@@ -1,0 +1,23 @@
+{
+  "Area": "Cloud Apps & Session Activity",
+  "Category": "CloudApps",
+  "Severity": "Medium",
+  "WhyItMatters": "Provides parameterized KQL for Cloud Apps & Session Activity.",
+  "ReviewSteps": [
+    "Run the related KQL.",
+    "Validate returned rows.",
+    "Document findings in analyst notes.",
+    "Pivot to related telemetry if suspicious."
+  ],
+  "RelatedQueries": [
+    "CloudApps/01-target-user-cloud-app-activity.kql",
+    "CloudApps/02-target-user-data-movement.kql"
+  ],
+  "ExpectedResults": "Rows should return when telemetry exists and permissions/tables are available.",
+  "NoResultsMeaning": "No rows, missing permissions, missing table, or no matching activity.",
+  "RecommendedActions": [
+    "Review source health.",
+    "Validate table availability.",
+    "Use returned rows for pivots."
+  ]
+}

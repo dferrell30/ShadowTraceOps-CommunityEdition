@@ -1,0 +1,33 @@
+{
+  "Area": "01 - Identity & Authentication",
+  "Title": "01 - Identity & Authentication",
+  "Phase": 1,
+  "Severity": "High",
+  "Category": "AuthenticationIdentity",
+  "WhyItMatters": "Phase 1: Identity & Authentication. Use this in order to guide the analyst through a consistent investigation workflow.",
+  "Triggers": [
+    "risky sign-in",
+    "failed sign-ins",
+    "MFA interruption",
+    "Conditional Access",
+    "unmanaged device"
+  ],
+  "ReviewSteps": [
+    "Open this playbook card in the existing pop-out blade.",
+    "Run the related KQL in the order shown.",
+    "Validate returned rows against raw telemetry and source health.",
+    "Document findings before moving to the next phase."
+  ],
+  "RelatedQueries": [
+    "AuthenticationIdentity/01-target-user-signin-summary.kql",
+    "AuthenticationIdentity/02-target-user-failed-signins.kql",
+    "AuthenticationIdentity/03-target-user-unmanaged-device-signins.kql"
+  ],
+  "ExpectedResults": "Rows should return when relevant telemetry exists and permissions/tables are available.",
+  "NoResultsMeaning": "No matching telemetry, missing permission, unavailable table, or no matching activity for the target user.",
+  "RecommendedActions": [
+    "Validate telemetry availability.",
+    "Use returned evidence to guide pivots.",
+    "Do not remediate until findings are confirmed."
+  ]
+}
