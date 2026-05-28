@@ -546,15 +546,27 @@ Use in accordance with your organization's security, privacy, legal, and change-
 
 Built from real-world investigation workflow challenges, telemetry correlation problems, and defensive gap analysis concepts within Microsoft security environments.
 
+## Licensing
 
+Shadow Suite Community Edition is licensed under the Business Source License 1.1 (BSL).
 
+Permitted:
+- personal use
+- educational use
+- internal organizational evaluation
+- defensive security testing
+- research and lab environments
 
+Restricted without written authorization:
+- commercial resale
+- SaaS hosting
+- MSSP/MSP redistribution
+- managed service integration
+- OEM redistribution
+- rebranding
+- derivative commercial offerings
 
-
-
-
-
-
+See LICENSE.md and NOTICE.md for full details.
 
 
 ⚠️ Disclaimer
