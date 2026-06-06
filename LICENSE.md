@@ -11,6 +11,7 @@ Licensed Work:
 Shadow Suite Community Edition, including but not limited to:
 - Shadow Trace Ops
 - Shadow Deploy
+- Shadow Verify
 - Shadow Suite investigation framework
 - Shadow Suite reporting framework
 - Shadow Suite UI/branding components
